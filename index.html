@@ -3,260 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AtisticsPicks - AI Sports Platform</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>AtisticsPicks - Pro Canlı Bülten & Analiz</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        
-        body { background-color: #0b0e14; color: #94a3b8; font-family: 'Plus Jakarta Sans', sans-serif; }
-        
-        .navbar { background-color: #121824; border-bottom: 1px solid #1e293b; padding: 12px 0; }
-        .navbar-brand { font-weight: 800; color: #38bdf8; font-size: 1.25rem; }
-        .nav-link { color: #94a3b8; font-size: 0.85rem; font-weight: 500; margin: 0 4px; }
-        .user-pill { background: #1e293b; border-radius: 8px; padding: 6px 12px; font-size: 0.85rem; color: #f8fafc; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-        .ticket-badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 6px; font-weight: 700; }
-        
-        .top-banner { background: #121824; border: 1px solid #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
-        .active-users { font-size: 0.75rem; font-weight: 700; color: #38bdf8; }
-        
-        .date-tab { background: #121824; border: 1px solid #1e293b; color: #94a3b8; border-radius: 10px; padding: 12px; text-align: center; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .date-tab.active { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #fff; border: none; }
-        
-        /* Sol Menü - Ligler */
-        .sidebar-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; }
-        .league-menu-btn { width: 100%; text-align: left; background: transparent; border: 1px solid transparent; color: #94a3b8; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
-        .league-menu-btn:hover, .league-menu-btn.active { background: #1e293b; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); }
-        
-        .coupon-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
-        .coupon-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; }
-        .coupon-title { font-size: 1.1rem; font-weight: 800; color: #f8fafc; }
-        
-        .match-card-item { background: #0b0e14; border: 1px solid #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-        .league-title { font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        
-        .unlock-btn { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-weight: 700; font-size: 0.8rem; padding: 6px 14px; border-radius: 8px; transition: all 0.2s; }
-        .unlock-btn:hover { background: #38bdf8; color: #0b0e14; }
-        
-        .pick-result-box { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #22c55e; border-radius: 8px; padding: 8px 12px; font-weight: 800; font-size: 0.85rem; }
-        
-        .stats-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; }
-        .history-item { background: #0b0e14; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; }
+        :root {
+            --bg-color: #121214;
+            --card-bg: #1e1e24;
+            --accent: #00ff88;
+            --text-main: #ffffff;
+            --text-sub: #a0a0b0;
+            --border-color: #2e2e38;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: var(--accent);
+            margin: 0 0 5px 0;
+            font-size: 2em;
+        }
+
+        /* Arama ve Filtreleme Alanı */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto 20px auto;
+        }
+
+        .search-box {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-main);
+            width: 250px;
+            outline: none;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* Ana Düzen: Sol Maçlar, Sağ Analiz Paneli */
+        .main-layout {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .matches-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .match-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: border 0.2s;
+        }
+
+        .match-card:hover {
+            border-color: var(--accent);
+        }
+
+        .match-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .league-title {
+            font-size: 0.8em;
+            color: var(--text-sub);
+            font-weight: bold;
+        }
+
+        .teams {
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 0.75em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #2b2b36;
+            color: var(--text-sub);
+            width: fit-content;
+        }
+
+        .status-badge.LIVE {
+            background: #ff3b30;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .pick-box {
+            background: #141418;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .pick-box:hover {
+            border-color: var(--accent);
+            background: #1a2e23;
+        }
+
+        .pick-title {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .pick-odds {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-top: 3px;
+        }
+
+        /* Sağ Analiz Paneli */
+        .coupon-panel {
+            flex: 1;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .coupon-header {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .coupon-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .coupon-item {
+            background: #141418;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85em;
+        }
+
+        .coupon-footer {
+            border-top: 1px solid var(--border-color);
+            margin-top: 15px;
+            padding-top: 10px;
+        }
+
+        .total-odds {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .copy-btn {
+            width: 100%;
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+        }
+
+        .disclaimer {
+            text-align: center;
+            font-size: 0.75em;
+            color: var(--text-sub);
+            max-width: 1200px;
+            margin: 30px auto 10px auto;
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <i class="fa-solid fa-robot text-info"></i> AtisticsPicks
-            </a>
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav me-auto ms-4">
-                    <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">Ana Sayfa</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Köşe Yazıları</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tuttuğu</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Ticket Paketleri</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Ticket Nedir?</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">X Stake Sistemi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Sponsorluk</a></li>
-                </ul>
-                <div class="user-pill">
-                    <span>metin söyler</span>
-                    <span class="ticket-badge"><i class="fa-solid fa-ticket me-1"></i><span id="ticket-count">12</span> Ticket</span>
-                    <i class="fa-regular fa-bell ms-1"></i>
-                    <i class="fa-regular fa-user ms-1"></i>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <div class="header">
+        <h1>AtisticsPicks Canlı Bülten & Analiz</h1>
+        <span style="color: var(--text-sub);">Anlık Maç İstatistikleri ve Algoritmik Tahminler</span>
+    </div>
 
-    <div class="container my-4">
-        <div class="top-banner d-flex justify-content-between align-items-center">
-            <div class="active-users"><i class="fa-solid fa-circle text-success me-2"></i>MAÇKOLİK BÜLTEN ENTEGRASYONU: AKTİF</div>
-            <div class="text-white small font-weight-bold">Güncel Maç Verileri <span class="badge bg-primary ms-2">CANLI SENKRONİZE</span></div>
-            <div class="text-end small"><a href="#" class="text-info text-decoration-none">AI Algoritma Raporu <i class="fa-solid fa-arrow-right"></i></a></div>
+    <div class="controls">
+        <input type="text" id="searchInput" class="search-box" placeholder="Takım veya lig ara..." oninput="filterMatches()">
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="setFilter('ALL', this)">Tümü</button>
+            <button class="filter-btn" onclick="setFilter('LIVE', this)">🔴 Canlı</button>
+            <button class="filter-btn" onclick="setFilter('SCHEDULED', this)">⏳ Başlamadı</button>
+            <button class="filter-btn" onclick="setFilter('FINISHED', this)">✅ Bitenler</button>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <div class="matches-container" id="matchesList">
+            <div style="text-align:center; padding: 20px; color: var(--text-sub);">Maçlar yükleniyor...</div>
         </div>
 
-        <!-- 3 Günlük Tarih Sekmeleri -->
-        <div class="row g-3 mb-4">
-            <div class="col-4"><div class="date-tab active" id="tab-today" onclick="changeDate('today')">Bugün<br><small>11 Eyl</small></div></div>
-            <div class="col-4"><div class="date-tab" id="tab-tomorrow" onclick="changeDate('tomorrow')">Yarın<br><small>12 Eyl</small></div></div>
-            <div class="col-4"><div class="date-tab" id="tab-sunday" onclick="changeDate('sunday')">Pazar<br><small>13 Eyl</small></div></div>
-        </div>
-
-        <div class="row g-4">
-            <!-- Sol Menü: Dikey Ligler Barı -->
-            <div class="col-lg-3">
-                <div class="sidebar-card">
-                    <h6 class="text-white font-weight-bold mb-3"><i class="fa-solid fa-trophy text-warning me-2"></i>Ligler & Turnuvalar</h6>
-                    <button class="league-menu-btn active" onclick="filterLeague('all', this)">
-                        <span><i class="fa-solid fa-globe me-2"></i>Tüm Maçlar</span>
-                    </button>
-                    <button class="league-menu-btn" onclick="filterLeague('UEFA Şampiyonlar Ligi', this)">
-                        <span>🇪🇺 Şampiyonlar Ligi</span>
-                    </button>
-                    <button class="league-menu-btn" onclick="filterLeague('Trendyol Süper Lig', this)">
-                        <span>🇹🇷 Süper Lig</span>
-                    </button>
-                    <button class="league-menu-btn" onclick="filterLeague('LaLiga', this)">
-                        <span>🇪🇸 LaLiga</span>
-                    </button>
-                    <button class="league-menu-btn" onclick="filterLeague('Serie A', this)">
-                        <span>🇮🇹 Serie A</span>
-                    </button>
-                    <button class="league-menu-btn" onclick="filterLeague('Ligue 1', this)">
-                        <span>🇫🇷 Ligue 1</span>
-                    </button>
-                    <button class="league-menu-btn" onclick="filterLeague('Bundesliga', this)">
-                        <span>🇩🇪 Bundesliga</span>
-                    </button>
-                </div>
+        <div class="coupon-panel">
+            <div class="coupon-header">
+                <span>Seçilen Analizler</span>
+                <span id="couponCount">(0)</span>
             </div>
-
-            <!-- Orta Alan: Maçkolik Bültendeki Maçlar -->
-            <div class="col-lg-6">
-                <div class="coupon-card">
-                    <div class="coupon-header">
-                        <div class="coupon-title" id="display-league-title">Güncel Maç Analizleri</div>
-                        <span class="badge bg-info text-dark font-weight-bold"><i class="fa-solid fa-microchip me-1"></i> ATISTICS AI</span>
-                    </div>
-
-                    <p class="text-muted small mb-3">Seçilen maça özel AI analiz ve tahmin kilidini açmak: <strong>3 Ticket</strong></p>
-
-                    <div id="matches-container">
-                        <!-- Dynamic Match Cards -->
-                    </div>
-                </div>
+            <div class="coupon-list" id="couponList">
+                <div style="text-align:center; color: var(--text-sub); font-size: 0.85em;">Listeye maç eklemek için tahmin kutularına tıklayın.</div>
             </div>
-
-            <!-- Sağ Alan: Dünün Kupon Verisi -->
-            <div class="col-lg-3">
-                <div class="stats-card">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="text-white font-weight-bold" style="font-size:0.9rem;"><i class="fa-solid fa-clock-rotate-left me-1"></i>Dünün Sonucu</div>
-                        <span class="badge bg-success">10 EYLÜL</span>
-                    </div>
-
-                    <div class="history-item">
-                        <div class="d-flex justify-content-between small text-muted mb-2">
-                            <span>VIP AI KOMBİNE</span>
-                            <span class="badge bg-success">KAZANDI</span>
-                        </div>
-                        <div class="text-white font-weight-bold small">Galatasaray v Trabzonspor</div>
-                        <div class="text-muted mb-2" style="font-size:0.75rem;">Tahmin: MS 1 • Oran: 1.75</div>
-                        <div class="text-white font-weight-bold small">Man. City v Liverpool</div>
-                        <div class="text-muted mb-2" style="font-size:0.75rem;">Tahmin: 2.5 Üst • Oran: 1.50</div>
-                        <hr style="border-color:#1e293b; margin:8px 0;">
-                        <div class="d-flex justify-content-between text-success font-weight-bold small">
-                            <span>Toplam Oran:</span>
-                            <span>2.62</span>
-                        </div>
-                    </div>
+            <div class="coupon-footer">
+                <div class="total-odds">
+                    <span>Ortalama Oran:</span>
+                    <span id="totalOdds" style="color: var(--accent);">1.00</span>
                 </div>
+                <button class="copy-btn" onclick="copySelections()">Seçimleri Kopyala</button>
             </div>
         </div>
     </div>
 
+    <div class="disclaimer">
+        Yasal Uyarı: Bu sitede herhangi bir şekilde bahis veya kumar oynatılmamaktadır. Sunulan oranlar ve tahminler yalnızca istatistiki bilgi ve analiz amaçlıdır.
+    </div>
+
     <script>
-        let ticketCount = 12;
-        let activeDay = 'today';
-        let selectedLeague = 'all';
+        let allMatches = [];
+        let activeFilter = 'ALL';
+        let coupon = [];
 
-        const matchesData = {
-            today: [
-                { id: 101, league: "UEFA Şampiyonlar Ligi", time: "22:00", home: "Real Madrid", away: "Bayern München", pick: "KG Var", odds: "1.58", confidence: "%71", reason: "İki dev takımın devler ligindeki karşılaşmalarında karşılıklı gol oranı oldukça yüksek." },
-                { id: 1, league: "Trendyol Süper Lig", time: "20:00", home: "Beşiktaş", away: "Erzurumspor FK", pick: "MS 1", odds: "1.42", confidence: "%72", reason: "Beşiktaş evinde iç saha baskısıyla üstünlük kuracaktır." },
-                { id: 3, league: "LaLiga", time: "22:00", home: "Sevilla", away: "Valencia", pick: "KG Var", odds: "1.74", confidence: "%65", reason: "İki takımın savunma zafiyetleri gol ihtimalini artırıyor." },
-                { id: 4, league: "Serie A", time: "21:45", home: "Venezia", away: "Fiorentina", pick: "MS 2", odds: "1.82", confidence: "%64", reason: "Fiorentina kadro kalitesi ve form durumuyla öne çıkıyor." },
-                { id: 5, league: "Ligue 1", time: "21:45", home: "Rennes", away: "Marsilya", pick: "2.5 Üst", odds: "1.68", confidence: "%70", reason: "Rennes ve Marsilya tempolu hücum futbolu oynuyor." },
-                { id: 6, league: "Bundesliga", time: "21:30", home: "Union Berlin", away: "Schalke 04", pick: "1X Çifte Şans", odds: "1.35", confidence: "%74", reason: "Union Berlin iç sahada savunmasıyla disiplinli oynuyor." }
-            ],
-            tomorrow: [
-                { id: 102, league: "UEFA Şampiyonlar Ligi", time: "22:00", home: "Barcelona", away: "Inter Milan", pick: "2.5 Üst", odds: "1.65", confidence: "%69", reason: "Tempolu geçmesi beklenen kritik mücadele." },
-                { id: 8, league: "Trendyol Süper Lig", time: "19:00", home: "Fenerbahçe", away: "Sivasspor", pick: "MS 1", odds: "1.40", confidence: "%73", reason: "Fenerbahçe iç sahada galibiyet serisini devam ettirmek istiyor." }
-            ],
-            sunday: [
-                { id: 10, league: "LaLiga", time: "18:30", home: "Atlético Madrid", away: "Villarreal", pick: "MS 1", odds: "1.62", confidence: "%68", reason: "Atlético Madrid Metropolitano'da dirençli bir performans sergiliyor." }
-            ]
-        };
+        async function fetchMatches() {
+            try {
+                // Render / Sunucu uyumlu dinamik yönlendirme
+                const res = await fetch('/api/matches');
+                allMatches = await res.json();
+                renderMatches();
+            } catch (err) {
+                document.getElementById('matchesList').innerHTML = '<div style="color:red; text-align:center;">Veriler yüklenirken hata oluştu.</div>';
+            }
+        }
 
-        const unlockedMatches = new Set();
+        function setFilter(filter, btn) {
+            activeFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderMatches();
+        }
+
+        function filterMatches() {
+            renderMatches();
+        }
 
         function renderMatches() {
-            const container = document.getElementById('matches-container');
-            container.innerHTML = '';
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            const list = document.getElementById('matchesList');
+            
+            const filtered = allMatches.filter(m => {
+                const matchesSearch = m.home.toLowerCase().includes(searchVal) || 
+                                      m.away.toLowerCase().includes(searchVal) || 
+                                      m.league.toLowerCase().includes(searchVal);
+                
+                const matchesFilter = activeFilter === 'ALL' || m.statusCode === activeFilter;
 
-            let matches = matchesData[activeDay] || [];
+                return matchesSearch && matchesFilter;
+            });
 
-            if (selectedLeague !== 'all') {
-                matches = matches.filter(m => m.league === selectedLeague);
-            }
-
-            if (matches.length === 0) {
-                container.innerHTML = `<div class="text-center text-muted py-4">Seçilen ligde bu tarih için maç bulunamadı.</div>`;
+            if (filtered.length === 0) {
+                list.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-sub);">Kriterlere uygun maç bulunamadı.</div>';
                 return;
             }
 
-            matches.forEach(m => {
-                const isUnlocked = unlockedMatches.has(m.id);
-                
-                const actionHtml = isUnlocked 
-                    ? `<div class="pick-result-box text-center">
-                        <i class="fa-solid fa-check-circle me-1"></i> TAHMİN: <strong>${m.pick}</strong> (${m.odds})
-                        <div class="text-white small font-weight-normal mt-1" style="font-size:0.75rem;">AI Analizi: ${m.reason}</div>
-                       </div>`
-                    : `<button class="unlock-btn" onclick="unlockSingleMatch(${m.id})">
-                        <i class="fa-solid fa-lock me-1"></i> Tahmini Aç (3 Ticket)
-                       </button>`;
+            list.innerHTML = filtered.map(m => `
+                <div class="match-card">
+                    <div class="match-info">
+                        <span class="league-title">${m.league}</span>
+                        <div class="teams">${m.home} <span style="color: var(--accent);">${m.score}</span> ${m.away}</div>
+                        <span class="status-badge ${m.statusCode}">${m.time}</span>
+                    </div>
+                    <div class="pick-box" onclick="addToCoupon('${m.home} - ${m.away}', '${m.pick}', ${m.odds})">
+                        <div class="pick-title">${m.pick}</div>
+                        <div class="pick-odds">${m.odds}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-                container.innerHTML += `
-                    <div class="match-card-item">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="league-title">${m.league} • ${m.time}</span>
-                            <span class="badge bg-secondary" style="font-size: 0.7rem;">AI Güven: ${m.confidence}</span>
+        function addToCoupon(matchName, pick, odds) {
+            const index = coupon.findIndex(c => c.matchName === matchName);
+            if (index > -1) {
+                coupon.splice(index, 1);
+            } else {
+                coupon.push({ matchName, pick, odds: parseFloat(odds) });
+            }
+            renderCoupon();
+        }
+
+        function renderCoupon() {
+            const list = document.getElementById('couponList');
+            const count = document.getElementById('couponCount');
+            const totalOddsEl = document.getElementById('totalOdds');
+
+            count.innerText = `(${coupon.length})`;
+
+            if (coupon.length === 0) {
+                list.innerHTML = '<div style="text-align:center; color: var(--text-sub); font-size: 0.85em;">Listeye maç eklemek için tahmin kutularına tıklayın.</div>';
+                totalOddsEl.innerText = '1.00';
+                return;
+            }
+
+            let totalOdds = 1;
+            list.innerHTML = coupon.map((item) => {
+                totalOdds *= item.odds;
+                return `
+                    <div class="coupon-item">
+                        <div>
+                            <div><strong>${item.matchName}</strong></div>
+                            <div style="color: var(--accent);">${item.pick}</div>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="text-white font-weight-bold" style="font-size: 0.95rem;">
-                                ${m.home} <span class="text-muted fw-normal px-1">vs</span> ${m.away}
-                            </div>
-                            <div>
-                                ${actionHtml}
-                            </div>
-                        </div>
+                        <div style="font-weight: bold; margin-left: 10px;">${item.odds.toFixed(2)}</div>
                     </div>
                 `;
-            });
+            }).join('');
+
+            totalOddsEl.innerText = totalOdds.toFixed(2);
         }
 
-        function filterLeague(league, element) {
-            selectedLeague = league;
-            document.querySelectorAll('.league-menu-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            
-            document.getElementById('display-league-title').innerText = league === 'all' ? 'Güncel Maç Analizleri' : league;
-            renderMatches();
-        }
-
-        function unlockSingleMatch(matchId) {
-            if (ticketCount >= 3) {
-                ticketCount -= 3;
-                document.getElementById('ticket-count').innerText = ticketCount;
-                unlockedMatches.add(matchId);
-                renderMatches();
-            } else {
-                alert("Yetersiz Ticket! Bu maçı açmak için en az 3 Ticket gereklidir.");
+        function copySelections() {
+            if(coupon.length === 0) {
+                alert("Henüz seçim yapmadınız.");
+                return;
             }
+            let text = "AtisticsPicks Seçimlerim:\n\n";
+            coupon.forEach(item => {
+                text += `${item.matchName} -> Tahmin: ${item.pick} (Oran: ${item.odds})\n`;
+            });
+            navigator.clipboard.writeText(text);
+            alert("Seçtiğiniz analizler panoya kopyalandı! İstediğiniz yere yapıştırabilirsiniz.");
         }
 
-        function changeDate(day) {
-            activeDay = day;
-            document.querySelectorAll('.date-tab').forEach(el => el.classList.remove('active'));
-            document.getElementById(`tab-${day}`).classList.add('active');
-            renderMatches();
-        }
-
-        renderMatches();
+        fetchMatches();
+        setInterval(fetchMatches, 60000);
     </script>
 </body>
 </html>
