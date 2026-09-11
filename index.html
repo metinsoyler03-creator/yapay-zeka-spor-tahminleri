@@ -30,16 +30,14 @@
         .coupon-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
         .coupon-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; }
         .coupon-title { font-size: 1.1rem; font-weight: 800; color: #f8fafc; }
-        .odds-box { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); color: #eab308; border-radius: 8px; padding: 10px; text-align: center; font-weight: 800; font-size: 1.2rem; }
         
-        .match-list-preview { background: #0b0e14; border-radius: 10px; padding: 12px; margin-bottom: 15px; border: 1px solid #1e293b; }
-        .match-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a2234; }
-        .match-item:last-child { border-bottom: none; }
+        .match-card-item { background: #0b0e14; border: 1px solid #1e293b; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+        .league-title { font-size: 0.75rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         
-        .blur-pick { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; padding: 4px 12px; font-weight: 700; font-size: 0.8rem; }
-        .unlocked-pick { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 6px; padding: 4px 12px; font-weight: 800; font-size: 0.85rem; }
-
-        .lock-box { background: #0b0e14; border: 1px dashed #38bdf8; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; }
+        .unlock-btn { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); font-weight: 700; font-size: 0.8rem; padding: 6px 14px; border-radius: 8px; transition: all 0.2s; }
+        .unlock-btn:hover { background: #38bdf8; color: #0b0e14; }
+        
+        .pick-result-box { background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #22c55e; border-radius: 8px; padding: 8px 12px; font-weight: 800; font-size: 0.85rem; }
         
         .stats-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; }
         .history-item { background: #0b0e14; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; }
@@ -64,7 +62,7 @@
                 </ul>
                 <div class="user-pill">
                     <span>metin söyler</span>
-                    <span class="ticket-badge"><i class="fa-solid fa-ticket me-1"></i><span id="ticket-count">3</span> Ticket</span>
+                    <span class="ticket-badge"><i class="fa-solid fa-ticket me-1"></i><span id="ticket-count">12</span> Ticket</span>
                     <i class="fa-regular fa-bell ms-1"></i>
                     <i class="fa-regular fa-user ms-1"></i>
                 </div>
@@ -74,8 +72,8 @@
 
     <div class="container my-4">
         <div class="top-banner d-flex justify-content-between align-items-center">
-            <div class="active-users"><i class="fa-solid fa-circle text-success me-2"></i>YAPAY ZEKA MOTORU: AKTİF</div>
-            <div class="text-white small font-weight-bold">Bugünün 5 Büyük Lig Analizi Tamamlandı <span class="badge bg-primary ms-2">SÜPER LİG ÖZEL</span></div>
+            <div class="active-users"><i class="fa-solid fa-circle text-success me-2"></i>MAÇKOLİK CANLI BÜLTEN MOTORU: AKTİF</div>
+            <div class="text-white small font-weight-bold">Bugünün Maçkolik Verileri İşlendi <span class="badge bg-primary ms-2">GERÇEK ZAMANLI</span></div>
             <div class="text-end small"><a href="#" class="text-info text-decoration-none">AI Algoritma Raporu <i class="fa-solid fa-arrow-right"></i></a></div>
         </div>
 
@@ -89,43 +87,26 @@
         <!-- Filters -->
         <div class="filter-bar">
             <button class="filter-btn active">Tümü</button>
-            <button class="filter-btn">Canlı</button>
-            <button class="filter-btn">Süper Lig & Devler</button>
-            <button class="filter-btn">VIP Kombine</button>
-            <button class="filter-btn">Sonuçlanmış</button>
+            <button class="filter-btn">Süper Lig</button>
+            <button class="filter-btn">LaLiga</button>
+            <button class="filter-btn">Serie A</button>
+            <button class="filter-btn">Ligue 1</button>
+            <button class="filter-btn">Bundesliga</button>
         </div>
 
         <div class="row g-4">
-            <!-- Center Side: AI Match List & Dynamic Coupon -->
+            <!-- Center Side: Maçkolik Matches List -->
             <div class="col-lg-8">
                 <div class="coupon-card">
                     <div class="coupon-header">
-                        <div class="coupon-title" id="coupon-title">Bugünün Dev Ligler AI Kombinesi</div>
+                        <div class="coupon-title">Maçkolik Güncel Maç Analizleri</div>
                         <span class="badge bg-info text-dark font-weight-bold"><i class="fa-solid fa-microchip me-1"></i> ATISTICS AI BOT</span>
                     </div>
 
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="badge bg-warning text-dark font-weight-bold"><i class="fa-regular fa-clock me-1"></i> BEKLENİYOR</span>
-                        <span class="text-muted small" id="coupon-time">Saat: 20:00</span>
-                        <span class="badge bg-primary" id="coupon-confidence">YÜKSEK GÜVEN (%88)</span>
-                    </div>
+                    <p class="text-muted small mb-4">Her bir maçın yapay zeka analizini ve tahminini görmek için maça özel <strong>3 Ticket</strong> kullanılır.</p>
 
-                    <div class="odds-box mb-3">
-                        <small class="d-block text-muted style-normal" style="font-size: 0.75rem;">TOPLAM İDDAA ORANI</small>
-                        <span id="coupon-odds">3.45</span>
-                    </div>
-
-                    <!-- Maç İsimlerinin Göründüğü, Tahminlerin Kilitli Olduğu Liste -->
-                    <div class="match-list-preview" id="match-list">
-                        <!-- JavaScript dynamic load -->
-                    </div>
-
-                    <!-- Lock Action Box -->
-                    <div class="lock-box" id="lock-box-action" onclick="unlockPick()">
-                        <i class="fa-solid fa-lock text-warning fa-2x mb-2"></i>
-                        <h6 class="text-white font-weight-bold mb-1">TAHMİNLER KİLİTLİ</h6>
-                        <small class="text-muted d-block mb-3">Maçların AI analizlerini görmek için 3 Ticket kullanın</small>
-                        <button class="btn btn-info btn-sm fw-bold px-4" style="background:#38bdf8; color:#0b0e14;">Tahminleri Aç (3 Ticket)</button>
+                    <div id="matches-container">
+                        <!-- Dynamic Match Cards -->
                     </div>
                 </div>
             </div>
@@ -159,70 +140,76 @@
     </div>
 
     <script>
-        let ticketCount = 3;
-        let isUnlocked = false;
+        let ticketCount = 12;
         let activeDay = 'today';
 
-        const dayData = {
-            today: {
-                title: "Bugünün Dev Ligler AI Kombinesi",
-                odds: "3.45",
-                time: "Saat: 20:00",
-                confidence: "YÜKSEK GÜVEN (%88)",
-                matches: [
-                    { teams: "🇹🇷 Beşiktaş vs Erzurumspor", pick: "MS 1", odds: "1.45" },
-                    { teams: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Arsenal vs Chelsea", pick: "2.5 Üst", odds: "1.62" },
-                    { teams: "🇪🇸 Real Madrid vs Barcelona", pick: "KG Var", odds: "1.47" }
-                ]
-            },
-            tomorrow: {
-                title: "Yarının Özel AI Kombinesi (12 Eyl)",
-                odds: "4.12",
-                time: "Saat: 19:30",
-                confidence: "YÜKSEK GÜVEN (%85)",
-                matches: [
-                    { teams: "🇹🇷 Fenerbahçe vs Sivasspor", pick: "MS 1", odds: "1.38" },
-                    { teams: "🇩🇪 Bayern München vs Dortmund", pick: "3.5 Üst", odds: "1.95" },
-                    { teams: "🇮🇹 Inter vs AC Milan", pick: "MS 1", odds: "1.53" }
-                ]
-            },
-            sunday: {
-                title: "Pazar Günü AI Devler Kombinesi (13 Eyl)",
-                odds: "2.90",
-                time: "Saat: 18:00",
-                confidence: "YÜKSEK GÜVEN (%91)",
-                matches: [
-                    { teams: "🇹🇷 Trabzonspor vs Başakşehir", pick: "1X Çifte Şans", odds: "1.32" },
-                    { teams: "🇫🇷 PSG vs Marseille", pick: "MS 1", odds: "1.42" },
-                    { teams: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Man. City vs Tottenham", pick: "KG Var", odds: "1.55" }
-                ]
-            }
+        // Maçkolik bülten verisi ve AI algoritma tahminleri
+        const matchesData = {
+            today: [
+                { id: 1, league: "🇹🇷 Trendyol Süper Lig", time: "20:00", home: "Beşiktaş", away: "Erzurumspor FK", pick: "MS 1", odds: "1.42", confidence: "%72", reason: "Beşiktaş evinde son 5 maçta %80 galibiyet oranına sahip, kadro kalitesi yüksek." },
+                { id: 2, league: "🇹🇷 Trendyol 1. Lig", time: "20:00", home: "Sarıyer", away: "Bandırmaspor", pick: "2.5 Alt", odds: "1.65", confidence: "%68", reason: "İki takımın son 4 karşılaşmasının 3'ü düşük skorla tamamlandı." },
+                { id: 3, league: "🇪🇸 LaLiga", time: "22:00", home: "Sevilla", away: "Valencia", pick: "KG Var", odds: "1.74", confidence: "%65", reason: "Sevilla defans hattındaki eksikler nedeniyle kalesini gole kapatmakta zorlanıyor." },
+                { id: 4, league: "🇮🇹 Serie A", time: "21:45", home: "Venezia", away: "Fiorentina", pick: "MS 2", odds: "1.82", confidence: "%64", reason: "Fiorentina deplasmanda geçiş hücumlarında Serie A'nın en etkili ekiplerinden." },
+                { id: 5, league: "🇫🇷 Ligue 1", time: "21:45", home: "Rennes", away: "Marsilya", pick: "2.5 Üst", odds: "1.68", confidence: "%70", reason: "İki takımın hücut hattı formda, yüksek temposu olan bir maç bekleniyor." },
+                { id: 6, league: "🇩🇪 Bundesliga", time: "21:30", home: "Union Berlin", away: "Schalke 04", pick: "1X Çifte Şans", odds: "1.35", confidence: "%74", reason: "Union Berlin iç sahada sert savunmasıyla yenilgisiz serisini sürdürüyor." },
+                { id: 7, league: "🇳🇱 Eredivisie", time: "21:00", home: "AZ Alkmaar", away: "Willem II", pick: "MS 1", odds: "1.50", confidence: "%71", reason: "AZ Alkmaar evinde yüksek gol ortalamasına sahip." }
+            ],
+            tomorrow: [
+                { id: 8, league: "🇹🇷 Trendyol Süper Lig", time: "19:00", home: "Fenerbahçe", away: "Sivasspor", pick: "MS 1 & 1.5 Üst", odds: "1.52", confidence: "%73", reason: "Fenerbahçe iç saha baskısıyla maça hızlı başlayacaktır." },
+                { id: 9, league: "🇩🇪 Bundesliga", time: "18:30", home: "Bayern München", away: "Dortmund", pick: "3.5 Üst", odds: "1.90", confidence: "%66", reason: "Der Klassiker maçlarında ortalama gol beklentisi 3.8 seviyesindedir." }
+            ],
+            sunday: [
+                { id: 10, league: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League", time: "18:30", home: "Man. City", away: "Tottenham", pick: "KG Var", odds: "1.58", confidence: "%69", reason: "İki ekibin de hücum istatistikleri üst seviyede." }
+            ]
         };
 
+        const unlockedMatches = new Set();
+
         function renderMatches() {
-            const currentData = dayData[activeDay];
-            document.getElementById('coupon-title').innerText = currentData.title;
-            document.getElementById('coupon-odds').innerText = currentData.odds;
-            document.getElementById('coupon-time').innerText = currentData.time;
-            document.getElementById('coupon-confidence').innerText = currentData.confidence;
+            const container = document.getElementById('matches-container');
+            container.innerHTML = '';
 
-            const listContainer = document.getElementById('match-list');
-            listContainer.innerHTML = '';
+            const matches = matchesData[activeDay] || [];
 
-            currentData.matches.forEach(m => {
-                const pickText = isUnlocked ? `<span class="unlocked-pick"><i class="fa-solid fa-check me-1"></i> ${m.pick} (${m.odds})</span>` : `<span class="blur-pick"><i class="fa-solid fa-lock me-1"></i> TAHMİN KİLİTLİ</span>`;
-                listContainer.innerHTML += `
-                    <div class="match-item">
-                        <span class="text-white font-weight-bold" style="font-size: 0.9rem;">${m.teams}</span>
-                        ${pickText}
+            matches.forEach(m => {
+                const isUnlocked = unlockedMatches.has(m.id);
+                
+                const actionHtml = isUnlocked 
+                    ? `<div class="pick-result-box text-center">
+                        <i class="fa-solid fa-check-circle me-1"></i> TAHMİN: <strong>${m.pick}</strong> (Oran: ${m.odds})
+                        <div class="text-white small font-weight-normal mt-1" style="font-size:0.75rem;">AI Nedeni: ${m.reason}</div>
+                       </div>`
+                    : `<button class="unlock-btn" onclick="unlockSingleMatch(${m.id})">
+                        <i class="fa-solid fa-lock me-1"></i> Tahmini Aç (3 Ticket)
+                       </button>`;
+
+                container.innerHTML += `
+                    <div class="match-card-item">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="league-title">${m.league} • ${m.time}</span>
+                            <span class="badge bg-secondary" style="font-size: 0.7rem;">AI Güven: ${m.confidence}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-white font-weight-bold" style="font-size: 1rem;">
+                                ${m.home} <span class="text-muted fw-normal px-1">vs</span> ${m.away}
+                            </div>
+                            <div>
+                                ${actionHtml}
+                            </div>
+                        </div>
                     </div>
                 `;
             });
+        }
 
-            if(isUnlocked) {
-                document.getElementById('lock-box-action').style.display = 'none';
+        function unlockSingleMatch(matchId) {
+            if (ticketCount >= 3) {
+                ticketCount -= 3;
+                document.getElementById('ticket-count').innerText = ticketCount;
+                unlockedMatches.add(matchId);
+                renderMatches();
             } else {
-                document.getElementById('lock-box-action').style.display = 'block';
+                alert("Yetersiz Ticket! Bu maçı açmak için en az 3 Ticket gereklidir.");
             }
         }
 
@@ -231,17 +218,6 @@
             document.querySelectorAll('.date-tab').forEach(el => el.classList.remove('active'));
             document.getElementById(`tab-${day}`).classList.add('active');
             renderMatches();
-        }
-
-        function unlockPick() {
-            if (ticketCount >= 3) {
-                ticketCount -= 3;
-                document.getElementById('ticket-count').innerText = ticketCount;
-                isUnlocked = true;
-                renderMatches();
-            } else {
-                alert("Yetersiz Ticket! Kilitli günün kuponunu açmak için en az 3 Ticket gereklidir.");
-            }
         }
 
         renderMatches();
