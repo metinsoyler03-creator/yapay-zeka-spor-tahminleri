@@ -23,9 +23,10 @@
         .date-tab { background: #121824; border: 1px solid #1e293b; color: #94a3b8; border-radius: 10px; padding: 12px; text-align: center; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .date-tab.active { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #fff; border: none; }
         
-        .filter-bar { background: #121824; border: 1px solid #1e293b; border-radius: 10px; padding: 8px; display: flex; gap: 8px; overflow-x: auto; margin-bottom: 24px; }
-        .filter-btn { background: transparent; border: none; color: #94a3b8; font-size: 0.8rem; font-weight: 600; padding: 6px 14px; border-radius: 6px; white-space: nowrap; }
-        .filter-btn.active { background: #6366f1; color: #fff; }
+        /* Sol Menü - Ligler */
+        .sidebar-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; }
+        .league-menu-btn { width: 100%; text-align: left; background: transparent; border: 1px solid transparent; color: #94a3b8; padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+        .league-menu-btn:hover, .league-menu-btn.active { background: #1e293b; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3); }
         
         .coupon-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
         .coupon-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; }
@@ -72,8 +73,8 @@
 
     <div class="container my-4">
         <div class="top-banner d-flex justify-content-between align-items-center">
-            <div class="active-users"><i class="fa-solid fa-circle text-success me-2"></i>MAÇKOLİK CANLI BÜLTEN MOTORU: AKTİF</div>
-            <div class="text-white small font-weight-bold">Bugünün Maçkolik Verileri İşlendi <span class="badge bg-primary ms-2">GERÇEK ZAMANLI</span></div>
+            <div class="active-users"><i class="fa-solid fa-circle text-success me-2"></i>MAÇKOLİK BÜLTEN ENTEGRASYONU: AKTİF</div>
+            <div class="text-white small font-weight-bold">Güncel Maç Verileri <span class="badge bg-primary ms-2">CANLI SENKRONİZE</span></div>
             <div class="text-end small"><a href="#" class="text-info text-decoration-none">AI Algoritma Raporu <i class="fa-solid fa-arrow-right"></i></a></div>
         </div>
 
@@ -84,26 +85,44 @@
             <div class="col-4"><div class="date-tab" id="tab-sunday" onclick="changeDate('sunday')">Pazar<br><small>13 Eyl</small></div></div>
         </div>
 
-        <!-- Filters -->
-        <div class="filter-bar">
-            <button class="filter-btn active">Tümü</button>
-            <button class="filter-btn">Süper Lig</button>
-            <button class="filter-btn">LaLiga</button>
-            <button class="filter-btn">Serie A</button>
-            <button class="filter-btn">Ligue 1</button>
-            <button class="filter-btn">Bundesliga</button>
-        </div>
-
         <div class="row g-4">
-            <!-- Center Side: Maçkolik Matches List -->
-            <div class="col-lg-8">
+            <!-- Sol Menü: Dikey Ligler Barı -->
+            <div class="col-lg-3">
+                <div class="sidebar-card">
+                    <h6 class="text-white font-weight-bold mb-3"><i class="fa-solid fa-trophy text-warning me-2"></i>Ligler & Turnuvalar</h6>
+                    <button class="league-menu-btn active" onclick="filterLeague('all', this)">
+                        <span><i class="fa-solid fa-globe me-2"></i>Tüm Maçlar</span>
+                    </button>
+                    <button class="league-menu-btn" onclick="filterLeague('UEFA Şampiyonlar Ligi', this)">
+                        <span>🇪🇺 Şampiyonlar Ligi</span>
+                    </button>
+                    <button class="league-menu-btn" onclick="filterLeague('Trendyol Süper Lig', this)">
+                        <span>🇹🇷 Süper Lig</span>
+                    </button>
+                    <button class="league-menu-btn" onclick="filterLeague('LaLiga', this)">
+                        <span>🇪🇸 LaLiga</span>
+                    </button>
+                    <button class="league-menu-btn" onclick="filterLeague('Serie A', this)">
+                        <span>🇮🇹 Serie A</span>
+                    </button>
+                    <button class="league-menu-btn" onclick="filterLeague('Ligue 1', this)">
+                        <span>🇫🇷 Ligue 1</span>
+                    </button>
+                    <button class="league-menu-btn" onclick="filterLeague('Bundesliga', this)">
+                        <span>🇩🇪 Bundesliga</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Orta Alan: Maçkolik Bültendeki Maçlar -->
+            <div class="col-lg-6">
                 <div class="coupon-card">
                     <div class="coupon-header">
-                        <div class="coupon-title">Maçkolik Güncel Maç Analizleri</div>
-                        <span class="badge bg-info text-dark font-weight-bold"><i class="fa-solid fa-microchip me-1"></i> ATISTICS AI BOT</span>
+                        <div class="coupon-title" id="display-league-title">Güncel Maç Analizleri</div>
+                        <span class="badge bg-info text-dark font-weight-bold"><i class="fa-solid fa-microchip me-1"></i> ATISTICS AI</span>
                     </div>
 
-                    <p class="text-muted small mb-4">Her bir maçın yapay zeka analizini ve tahminini görmek için maça özel <strong>3 Ticket</strong> kullanılır.</p>
+                    <p class="text-muted small mb-3">Seçilen maça özel AI analiz ve tahmin kilidini açmak: <strong>3 Ticket</strong></p>
 
                     <div id="matches-container">
                         <!-- Dynamic Match Cards -->
@@ -111,11 +130,11 @@
                 </div>
             </div>
 
-            <!-- Right Side: Single History (Dün) -->
-            <div class="col-lg-4">
+            <!-- Sağ Alan: Dünün Kupon Verisi -->
+            <div class="col-lg-3">
                 <div class="stats-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="text-white font-weight-bold"><i class="fa-solid fa-clock-rotate-left me-2"></i>Dünün Sonuçlanan Kuponu</div>
+                        <div class="text-white font-weight-bold" style="font-size:0.9rem;"><i class="fa-solid fa-clock-rotate-left me-1"></i>Dünün Sonucu</div>
                         <span class="badge bg-success">10 EYLÜL</span>
                     </div>
 
@@ -142,24 +161,23 @@
     <script>
         let ticketCount = 12;
         let activeDay = 'today';
+        let selectedLeague = 'all';
 
-        // Maçkolik bülten verisi ve AI algoritma tahminleri
         const matchesData = {
             today: [
-                { id: 1, league: "🇹🇷 Trendyol Süper Lig", time: "20:00", home: "Beşiktaş", away: "Erzurumspor FK", pick: "MS 1", odds: "1.42", confidence: "%72", reason: "Beşiktaş evinde son 5 maçta %80 galibiyet oranına sahip, kadro kalitesi yüksek." },
-                { id: 2, league: "🇹🇷 Trendyol 1. Lig", time: "20:00", home: "Sarıyer", away: "Bandırmaspor", pick: "2.5 Alt", odds: "1.65", confidence: "%68", reason: "İki takımın son 4 karşılaşmasının 3'ü düşük skorla tamamlandı." },
-                { id: 3, league: "🇪🇸 LaLiga", time: "22:00", home: "Sevilla", away: "Valencia", pick: "KG Var", odds: "1.74", confidence: "%65", reason: "Sevilla defans hattındaki eksikler nedeniyle kalesini gole kapatmakta zorlanıyor." },
-                { id: 4, league: "🇮🇹 Serie A", time: "21:45", home: "Venezia", away: "Fiorentina", pick: "MS 2", odds: "1.82", confidence: "%64", reason: "Fiorentina deplasmanda geçiş hücumlarında Serie A'nın en etkili ekiplerinden." },
-                { id: 5, league: "🇫🇷 Ligue 1", time: "21:45", home: "Rennes", away: "Marsilya", pick: "2.5 Üst", odds: "1.68", confidence: "%70", reason: "İki takımın hücut hattı formda, yüksek temposu olan bir maç bekleniyor." },
-                { id: 6, league: "🇩🇪 Bundesliga", time: "21:30", home: "Union Berlin", away: "Schalke 04", pick: "1X Çifte Şans", odds: "1.35", confidence: "%74", reason: "Union Berlin iç sahada sert savunmasıyla yenilgisiz serisini sürdürüyor." },
-                { id: 7, league: "🇳🇱 Eredivisie", time: "21:00", home: "AZ Alkmaar", away: "Willem II", pick: "MS 1", odds: "1.50", confidence: "%71", reason: "AZ Alkmaar evinde yüksek gol ortalamasına sahip." }
+                { id: 101, league: "UEFA Şampiyonlar Ligi", time: "22:00", home: "Real Madrid", away: "Bayern München", pick: "KG Var", odds: "1.58", confidence: "%71", reason: "İki dev takımın devler ligindeki karşılaşmalarında karşılıklı gol oranı oldukça yüksek." },
+                { id: 1, league: "Trendyol Süper Lig", time: "20:00", home: "Beşiktaş", away: "Erzurumspor FK", pick: "MS 1", odds: "1.42", confidence: "%72", reason: "Beşiktaş evinde iç saha baskısıyla üstünlük kuracaktır." },
+                { id: 3, league: "LaLiga", time: "22:00", home: "Sevilla", away: "Valencia", pick: "KG Var", odds: "1.74", confidence: "%65", reason: "İki takımın savunma zafiyetleri gol ihtimalini artırıyor." },
+                { id: 4, league: "Serie A", time: "21:45", home: "Venezia", away: "Fiorentina", pick: "MS 2", odds: "1.82", confidence: "%64", reason: "Fiorentina kadro kalitesi ve form durumuyla öne çıkıyor." },
+                { id: 5, league: "Ligue 1", time: "21:45", home: "Rennes", away: "Marsilya", pick: "2.5 Üst", odds: "1.68", confidence: "%70", reason: "Rennes ve Marsilya tempolu hücum futbolu oynuyor." },
+                { id: 6, league: "Bundesliga", time: "21:30", home: "Union Berlin", away: "Schalke 04", pick: "1X Çifte Şans", odds: "1.35", confidence: "%74", reason: "Union Berlin iç sahada savunmasıyla disiplinli oynuyor." }
             ],
             tomorrow: [
-                { id: 8, league: "🇹🇷 Trendyol Süper Lig", time: "19:00", home: "Fenerbahçe", away: "Sivasspor", pick: "MS 1 & 1.5 Üst", odds: "1.52", confidence: "%73", reason: "Fenerbahçe iç saha baskısıyla maça hızlı başlayacaktır." },
-                { id: 9, league: "🇩🇪 Bundesliga", time: "18:30", home: "Bayern München", away: "Dortmund", pick: "3.5 Üst", odds: "1.90", confidence: "%66", reason: "Der Klassiker maçlarında ortalama gol beklentisi 3.8 seviyesindedir." }
+                { id: 102, league: "UEFA Şampiyonlar Ligi", time: "22:00", home: "Barcelona", away: "Inter Milan", pick: "2.5 Üst", odds: "1.65", confidence: "%69", reason: "Tempolu geçmesi beklenen kritik mücadele." },
+                { id: 8, league: "Trendyol Süper Lig", time: "19:00", home: "Fenerbahçe", away: "Sivasspor", pick: "MS 1", odds: "1.40", confidence: "%73", reason: "Fenerbahçe iç sahada galibiyet serisini devam ettirmek istiyor." }
             ],
             sunday: [
-                { id: 10, league: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League", time: "18:30", home: "Man. City", away: "Tottenham", pick: "KG Var", odds: "1.58", confidence: "%69", reason: "İki ekibin de hücum istatistikleri üst seviyede." }
+                { id: 10, league: "LaLiga", time: "18:30", home: "Atlético Madrid", away: "Villarreal", pick: "MS 1", odds: "1.62", confidence: "%68", reason: "Atlético Madrid Metropolitano'da dirençli bir performans sergiliyor." }
             ]
         };
 
@@ -169,15 +187,24 @@
             const container = document.getElementById('matches-container');
             container.innerHTML = '';
 
-            const matches = matchesData[activeDay] || [];
+            let matches = matchesData[activeDay] || [];
+
+            if (selectedLeague !== 'all') {
+                matches = matches.filter(m => m.league === selectedLeague);
+            }
+
+            if (matches.length === 0) {
+                container.innerHTML = `<div class="text-center text-muted py-4">Seçilen ligde bu tarih için maç bulunamadı.</div>`;
+                return;
+            }
 
             matches.forEach(m => {
                 const isUnlocked = unlockedMatches.has(m.id);
                 
                 const actionHtml = isUnlocked 
                     ? `<div class="pick-result-box text-center">
-                        <i class="fa-solid fa-check-circle me-1"></i> TAHMİN: <strong>${m.pick}</strong> (Oran: ${m.odds})
-                        <div class="text-white small font-weight-normal mt-1" style="font-size:0.75rem;">AI Nedeni: ${m.reason}</div>
+                        <i class="fa-solid fa-check-circle me-1"></i> TAHMİN: <strong>${m.pick}</strong> (${m.odds})
+                        <div class="text-white small font-weight-normal mt-1" style="font-size:0.75rem;">AI Analizi: ${m.reason}</div>
                        </div>`
                     : `<button class="unlock-btn" onclick="unlockSingleMatch(${m.id})">
                         <i class="fa-solid fa-lock me-1"></i> Tahmini Aç (3 Ticket)
@@ -190,7 +217,7 @@
                             <span class="badge bg-secondary" style="font-size: 0.7rem;">AI Güven: ${m.confidence}</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="text-white font-weight-bold" style="font-size: 1rem;">
+                            <div class="text-white font-weight-bold" style="font-size: 0.95rem;">
                                 ${m.home} <span class="text-muted fw-normal px-1">vs</span> ${m.away}
                             </div>
                             <div>
@@ -200,6 +227,15 @@
                     </div>
                 `;
             });
+        }
+
+        function filterLeague(league, element) {
+            selectedLeague = league;
+            document.querySelectorAll('.league-menu-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            
+            document.getElementById('display-league-title').innerText = league === 'all' ? 'Güncel Maç Analizleri' : league;
+            renderMatches();
         }
 
         function unlockSingleMatch(matchId) {
