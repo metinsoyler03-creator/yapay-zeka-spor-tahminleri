@@ -19,7 +19,8 @@
         
         .top-banner { background: #121824; border: 1px solid #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
         .active-users { font-size: 0.75rem; font-weight: 700; color: #38bdf8; }
-        .date-tab { background: #121824; border: 1px solid #1e293b; color: #94a3b8; border-radius: 10px; padding: 12px; text-align: center; font-weight: 600; cursor: pointer; }
+        
+        .date-tab { background: #121824; border: 1px solid #1e293b; color: #94a3b8; border-radius: 10px; padding: 12px; text-align: center; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .date-tab.active { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #fff; border: none; }
         
         .filter-bar { background: #121824; border: 1px solid #1e293b; border-radius: 10px; padding: 8px; display: flex; gap: 8px; overflow-x: auto; margin-bottom: 24px; }
@@ -31,12 +32,17 @@
         .coupon-title { font-size: 1.1rem; font-weight: 800; color: #f8fafc; }
         .odds-box { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); color: #eab308; border-radius: 8px; padding: 10px; text-align: center; font-weight: 800; font-size: 1.2rem; }
         
-        .lock-box { background: #0b0e14; border: 1px dashed #334155; border-radius: 10px; padding: 25px; text-align: center; margin-top: 15px; cursor: pointer; transition: all 0.2s; }
-        .lock-box:hover { border-color: #38bdf8; background: #0e131f; }
+        .match-list-preview { background: #0b0e14; border-radius: 10px; padding: 12px; margin-bottom: 15px; border: 1px solid #1e293b; }
+        .match-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1a2234; }
+        .match-item:last-child { border-bottom: none; }
+        
+        .blur-pick { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px; padding: 4px 12px; font-weight: 700; font-size: 0.8rem; }
+        .unlocked-pick { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 6px; padding: 4px 12px; font-weight: 800; font-size: 0.85rem; }
+
+        .lock-box { background: #0b0e14; border: 1px dashed #38bdf8; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; }
         
         .stats-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; }
-        .history-item { background: #0b0e14; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 10px; }
-        .match-row { background: #1a2234; padding: 10px; border-radius: 6px; margin-bottom: 8px; border-left: 3px solid #38bdf8; }
+        .history-item { background: #0b0e14; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; }
     </style>
 </head>
 <body>
@@ -73,11 +79,11 @@
             <div class="text-end small"><a href="#" class="text-info text-decoration-none">AI Algoritma Raporu <i class="fa-solid fa-arrow-right"></i></a></div>
         </div>
 
-        <!-- Date Tabs -->
+        <!-- 3 Günlük Tarih Sekmeleri -->
         <div class="row g-3 mb-4">
-            <div class="col-4"><div class="date-tab active">Bugün<br><small>11 Eyl</small></div></div>
-            <div class="col-4"><div class="date-tab">Yarın<br><small>12 Eyl</small></div></div>
-            <div class="col-4"><div class="date-tab">Pazar<br><small>13 Eyl</small></div></div>
+            <div class="col-4"><div class="date-tab active" id="tab-today" onclick="changeDate('today')">Bugün<br><small>11 Eyl</small></div></div>
+            <div class="col-4"><div class="date-tab" id="tab-tomorrow" onclick="changeDate('tomorrow')">Yarın<br><small>12 Eyl</small></div></div>
+            <div class="col-4"><div class="date-tab" id="tab-sunday" onclick="changeDate('sunday')">Pazar<br><small>13 Eyl</small></div></div>
         </div>
 
         <!-- Filters -->
@@ -90,104 +96,62 @@
         </div>
 
         <div class="row g-4">
-            <!-- Center Side: AI Coupons & Big Matches -->
+            <!-- Center Side: AI Match List & Dynamic Coupon -->
             <div class="col-lg-8">
                 <div class="coupon-card">
                     <div class="coupon-header">
-                        <div class="coupon-title">Günün Dev Ligler AI Kombinesi</div>
+                        <div class="coupon-title" id="coupon-title">Bugünün Dev Ligler AI Kombinesi</div>
                         <span class="badge bg-info text-dark font-weight-bold"><i class="fa-solid fa-microchip me-1"></i> ATISTICS AI BOT</span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <span class="badge bg-warning text-dark font-weight-bold"><i class="fa-regular fa-clock me-1"></i> BEKLENİYOR</span>
-                        <span class="text-muted small">Başlama: 20:00</span>
-                        <span class="badge bg-primary">YÜKSEK GÜVEN (%88)</span>
+                        <span class="text-muted small" id="coupon-time">Saat: 20:00</span>
+                        <span class="badge bg-primary" id="coupon-confidence">YÜKSEK GÜVEN (%88)</span>
                     </div>
-
-                    <h6 class="text-white font-weight-bold mb-3">Süper Lig & Avrupa'nın En Önemli Maçları</h6>
 
                     <div class="odds-box mb-3">
-                        <small class="d-block text-muted" style="font-size: 0.75rem;">TOPLAM İDDAA ORANI</small>
-                        3.45
+                        <small class="d-block text-muted style-normal" style="font-size: 0.75rem;">TOPLAM İDDAA ORANI</small>
+                        <span id="coupon-odds">3.45</span>
                     </div>
 
-                    <!-- Locked Area -->
-                    <div class="lock-box" id="lock-box" onclick="unlockPick()">
+                    <!-- Maç İsimlerinin Göründüğü, Tahminlerin Kilitli Olduğu Liste -->
+                    <div class="match-list-preview" id="match-list">
+                        <!-- JavaScript dynamic load -->
+                    </div>
+
+                    <!-- Lock Action Box -->
+                    <div class="lock-box" id="lock-box-action" onclick="unlockPick()">
                         <i class="fa-solid fa-lock text-warning fa-2x mb-2"></i>
-                        <h6 class="text-white font-weight-bold mb-1">KİLİTLİ GÜNÜN KOMBİNESİ</h6>
-                        <small class="text-muted d-block mb-3">Süper Lig ve 5 Büyük Lig Maç Analizlerini Gör</small>
-                        <button class="btn btn-info btn-sm fw-bold px-4" style="background:#38bdf8; color:#0b0e14;">Ticket İle Aç (3 Ticket)</button>
-                    </div>
-
-                    <!-- Unlocked Result Area -->
-                    <div id="unlocked-content" class="mt-3" style="display: none;">
-                        <span class="badge bg-success mb-3">TICKET KULLANILDI - ANALİZ AÇILDI</span>
-                        
-                        <div class="match-row">
-                            <div class="d-flex justify-content-between text-white font-weight-bold">
-                                <span>🇹🇷 Beşiktaş vs Erzurumspor</span>
-                                <span class="text-info">Maç Sonucu: MS 1 (1.45)</span>
-                            </div>
-                        </div>
-
-                        <div class="match-row">
-                            <div class="d-flex justify-content-between text-white font-weight-bold">
-                                <span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Arsenal vs Chelsea</span>
-                                <span class="text-info">Gol Bahsi: 2.5 Üst (1.62)</span>
-                            </div>
-                        </div>
-
-                        <div class="match-row">
-                            <div class="d-flex justify-content-between text-white font-weight-bold">
-                                <span>🇪🇸 Real Madrid vs Barcelona</span>
-                                <span class="text-info">Karşılıklı Gol: KG Var (1.47)</span>
-                            </div>
-                        </div>
+                        <h6 class="text-white font-weight-bold mb-1">TAHMİNLER KİLİTLİ</h6>
+                        <small class="text-muted d-block mb-3">Maçların AI analizlerini görmek için 3 Ticket kullanın</small>
+                        <button class="btn btn-info btn-sm fw-bold px-4" style="background:#38bdf8; color:#0b0e14;">Tahminleri Aç (3 Ticket)</button>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Side: 3-Day Past Coupon History -->
+            <!-- Right Side: Single History (Dün) -->
             <div class="col-lg-4">
                 <div class="stats-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="text-white font-weight-bold"><i class="fa-solid fa-clock-rotate-left me-2"></i>Son 3 Günün Kuponları</div>
-                        <span class="badge bg-success">% 84 AI Başarı</span>
+                        <div class="text-white font-weight-bold"><i class="fa-solid fa-clock-rotate-left me-2"></i>Dünün Sonuçlanan Kuponu</div>
+                        <span class="badge bg-success">10 EYLÜL</span>
                     </div>
 
-                    <!-- Dün (10 Eylül) -->
                     <div class="history-item">
-                        <div class="d-flex justify-content-between small text-muted mb-1">
-                            <span>10 EYL (DÜN) • VIP KOMBİNE</span>
+                        <div class="d-flex justify-content-between small text-muted mb-2">
+                            <span>VIP AI KOMBİNE</span>
                             <span class="badge bg-success">KAZANDI</span>
                         </div>
                         <div class="text-white font-weight-bold small">Galatasaray v Trabzonspor</div>
-                        <div class="text-muted style-normal" style="font-size:0.75rem;">Tahmin: MS 1 • Oran: 1.75</div>
-                        <div class="text-white font-weight-bold small mt-1">Man. City v Liverpool</div>
-                        <div class="text-muted style-normal" style="font-size:0.75rem;">Tahmin: 2.5 Üst • Oran: 1.50</div>
-                        <div class="text-end mt-2 text-success font-weight-bold small">Toplam Oran: 2.62</div>
-                    </div>
-
-                    <!-- 9 Eylül -->
-                    <div class="history-item">
-                        <div class="d-flex justify-content-between small text-muted mb-1">
-                            <span>09 EYL • TEKLİ DEV MAÇ</span>
-                            <span class="badge bg-success">KAZANDI</span>
+                        <div class="text-muted mb-2" style="font-size:0.75rem;">Tahmin: MS 1 • Oran: 1.75</div>
+                        <div class="text-white font-weight-bold small">Man. City v Liverpool</div>
+                        <div class="text-muted mb-2" style="font-size:0.75rem;">Tahmin: 2.5 Üst • Oran: 1.50</div>
+                        <hr style="border-color:#1e293b; margin:8px 0;">
+                        <div class="d-flex justify-content-between text-success font-weight-bold small">
+                            <span>Toplam Oran:</span>
+                            <span>2.62</span>
                         </div>
-                        <div class="text-white font-weight-bold small">Inter v AC Milan</div>
-                        <div class="text-muted style-normal" style="font-size:0.75rem;">Tahmin: MS 1 • Oran: 2.10</div>
-                        <div class="text-end mt-2 text-success font-weight-bold small">Toplam Oran: 2.10</div>
-                    </div>
-
-                    <!-- 8 Eylül -->
-                    <div class="history-item">
-                        <div class="d-flex justify-content-between small text-muted mb-1">
-                            <span>08 EYL • KOMBİNE</span>
-                            <span class="badge bg-danger">KAYBETTİ</span>
-                        </div>
-                        <div class="text-white font-weight-bold small">PSG v Marseille</div>
-                        <div class="text-muted style-normal" style="font-size:0.75rem;">Tahmin: 3.5 Üst • Oran: 2.40</div>
-                        <div class="text-end mt-2 text-danger font-weight-bold small">Toplam Oran: 2.40</div>
                     </div>
                 </div>
             </div>
@@ -196,17 +160,91 @@
 
     <script>
         let ticketCount = 3;
+        let isUnlocked = false;
+        let activeDay = 'today';
+
+        const dayData = {
+            today: {
+                title: "Bugünün Dev Ligler AI Kombinesi",
+                odds: "3.45",
+                time: "Saat: 20:00",
+                confidence: "YÜKSEK GÜVEN (%88)",
+                matches: [
+                    { teams: "🇹🇷 Beşiktaş vs Erzurumspor", pick: "MS 1", odds: "1.45" },
+                    { teams: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Arsenal vs Chelsea", pick: "2.5 Üst", odds: "1.62" },
+                    { teams: "🇪🇸 Real Madrid vs Barcelona", pick: "KG Var", odds: "1.47" }
+                ]
+            },
+            tomorrow: {
+                title: "Yarının Özel AI Kombinesi (12 Eyl)",
+                odds: "4.12",
+                time: "Saat: 19:30",
+                confidence: "YÜKSEK GÜVEN (%85)",
+                matches: [
+                    { teams: "🇹🇷 Fenerbahçe vs Sivasspor", pick: "MS 1", odds: "1.38" },
+                    { teams: "🇩🇪 Bayern München vs Dortmund", pick: "3.5 Üst", odds: "1.95" },
+                    { teams: "🇮🇹 Inter vs AC Milan", pick: "MS 1", odds: "1.53" }
+                ]
+            },
+            sunday: {
+                title: "Pazar Günü AI Devler Kombinesi (13 Eyl)",
+                odds: "2.90",
+                time: "Saat: 18:00",
+                confidence: "YÜKSEK GÜVEN (%91)",
+                matches: [
+                    { teams: "🇹🇷 Trabzonspor vs Başakşehir", pick: "1X Çifte Şans", odds: "1.32" },
+                    { teams: "🇫🇷 PSG vs Marseille", pick: "MS 1", odds: "1.42" },
+                    { teams: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 Man. City vs Tottenham", pick: "KG Var", odds: "1.55" }
+                ]
+            }
+        };
+
+        function renderMatches() {
+            const currentData = dayData[activeDay];
+            document.getElementById('coupon-title').innerText = currentData.title;
+            document.getElementById('coupon-odds').innerText = currentData.odds;
+            document.getElementById('coupon-time').innerText = currentData.time;
+            document.getElementById('coupon-confidence').innerText = currentData.confidence;
+
+            const listContainer = document.getElementById('match-list');
+            listContainer.innerHTML = '';
+
+            currentData.matches.forEach(m => {
+                const pickText = isUnlocked ? `<span class="unlocked-pick"><i class="fa-solid fa-check me-1"></i> ${m.pick} (${m.odds})</span>` : `<span class="blur-pick"><i class="fa-solid fa-lock me-1"></i> TAHMİN KİLİTLİ</span>`;
+                listContainer.innerHTML += `
+                    <div class="match-item">
+                        <span class="text-white font-weight-bold" style="font-size: 0.9rem;">${m.teams}</span>
+                        ${pickText}
+                    </div>
+                `;
+            });
+
+            if(isUnlocked) {
+                document.getElementById('lock-box-action').style.display = 'none';
+            } else {
+                document.getElementById('lock-box-action').style.display = 'block';
+            }
+        }
+
+        function changeDate(day) {
+            activeDay = day;
+            document.querySelectorAll('.date-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${day}`).classList.add('active');
+            renderMatches();
+        }
 
         function unlockPick() {
             if (ticketCount >= 3) {
                 ticketCount -= 3;
                 document.getElementById('ticket-count').innerText = ticketCount;
-                document.getElementById('lock-box').style.display = 'none';
-                document.getElementById('unlocked-content').style.display = 'block';
+                isUnlocked = true;
+                renderMatches();
             } else {
                 alert("Yetersiz Ticket! Kilitli günün kuponunu açmak için en az 3 Ticket gereklidir.");
             }
         }
+
+        renderMatches();
     </script>
 </body>
 </html>
