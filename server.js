@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const API_KEY = process.env.API_KEY || '520dcfab308c3ca3826e317ad60717a8';
 
-// Statik dosyaları (index.html vb.) dışarıya açıyoruz
+// Statik dosyaları (index.html) dışarıya açıyoruz
 app.use(express.static(path.join(__dirname)));
 
 // Ana sayfaya girildiğinde doğrudan index.html dosyasını sunuyoruz
