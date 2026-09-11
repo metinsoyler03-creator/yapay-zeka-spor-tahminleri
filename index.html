@@ -40,53 +40,80 @@
             <button class="btn btn-outline-warning btn-sm rounded-pill px-3 fw-bold">👑 VIP Only</button>
         </div>
 
-        <!-- Normal Maç -->
-        <div class="pick-card">
-            <div class="row align-items-center">
-                <div class="col-md-4 mb-2 mb-md-0">
-                    <div class="league-title">Premier League • Today 20:00</div>
-                    <div class="team-name mt-1">Arsenal vs Chelsea</div>
-                </div>
-                <div class="col-md-5 my-2 my-md-0">
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <div class="prediction-box">
-                                <div class="pick-label">AI Prediction</div>
-                                <div class="pick-value">Home Win (1)</div>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="prediction-box">
-                                <div class="pick-label">Goals Market</div>
-                                <div class="pick-value">Over 2.5</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 text-md-end mt-2 mt-md-0">
-                    <span class="confidence-badge"><i class="fa-solid fa-bolt me-1"></i> %84 Probability</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIP Kilitli Maç -->
-        <div class="pick-card vip-card">
-            <div class="row align-items-center">
-                <div class="col-md-4 mb-2 mb-md-0">
-                    <div class="league-title text-warning">⭐ VIP EXCLUSIVE • Today 22:00</div>
-                    <div class="team-name mt-1">Real Madrid vs Barcelona</div>
-                </div>
-                <div class="col-md-5 my-2 my-md-0 text-center">
-                    <div class="p-2 rounded bg-dark border border-warning">
-                        <span class="vip-value"><i class="fa-solid fa-lock me-2"></i>HIGH ODDS VIP PICK LOCKED</span>
-                    </div>
-                </div>
-                <div class="col-md-3 text-md-end mt-2 mt-md-0">
-                    <button class="btn btn-warning btn-sm fw-bold w-100">Unlock Pick</button>
-                </div>
+        <!-- Canlı Maç Listesi -->
+        <div id="predictions-container">
+            <div class="text-center py-5">
+                <div class="spinner-border text-success" role="status"></div>
+                <div class="mt-2 text-muted">AI Canlı Tahminleri Yükleniyor...</div>
             </div>
         </div>
     </div>
 
+    <script>
+        async function fetchPredictions() {
+            const container = document.getElementById('predictions-container');
+            try {
+                const response = await fetch('https://yapay-zeka-spor-tahminleri.onrender.com/api/predictions');
+                const result = await response.json();
+                
+                if (result.status === 'success' && result.data.length > 0) {
+                    container.innerHTML = '';
+                    result.data.forEach(match => {
+                        if(match.is_vip) {
+                            container.innerHTML += `
+                                <div class="pick-card vip-card">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4 mb-2 mb-md-0">
+                                            <div class="league-title text-warning">⭐ VIP EXCLUSIVE • ${match.league}</div>
+                                            <div class="team-name mt-1">${match.home} vs ${match.away}</div>
+                                        </div>
+                                        <div class="col-md-5 my-2 my-md-0 text-center">
+                                            <div class="p-2 rounded bg-dark border border-warning">
+                                                <span class="vip-value"><i class="fa-solid fa-lock me-2"></i>HIGH ODDS VIP PICK LOCKED</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-md-end mt-2 mt-md-0">
+                                            <button class="btn btn-warning btn-sm fw-bold w-100">Unlock Pick</button>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        } else {
+                            container.innerHTML += `
+                                <div class="pick-card">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4 mb-2 mb-md-0">
+                                            <div class="league-title">${match.league}</div>
+                                            <div class="team-name mt-1">${match.home} vs ${match.away}</div>
+                                        </div>
+                                        <div class="col-md-5 my-2 my-md-0">
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <div class="prediction-box">
+                                                        <div class="pick-label">AI Prediction</div>
+                                                        <div class="pick-value">${match.prediction}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="prediction-box">
+                                                        <div class="pick-label">Goals Market</div>
+                                                        <div class="pick-value">${match.goals_market}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 text-md-end mt-2 mt-md-0">
+                                            <span class="confidence-badge"><i class="fa-solid fa-bolt me-1"></i> %${match.confidence} Probability</span>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        }
+                    });
+                }
+            } catch (error) {
+                container.innerHTML = '<div class="alert alert-danger">Tahminler yüklenirken bir sorun oluştu.</div>';
+            }
+        }
+        fetchPredictions();
+    </script>
 </body>
 </html>
