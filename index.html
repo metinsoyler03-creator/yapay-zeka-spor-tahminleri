@@ -33,7 +33,6 @@
             font-size: 2em;
         }
 
-        /* Arama ve Filtreleme Alanı */
         .controls {
             display: flex;
             flex-wrap: wrap;
@@ -75,7 +74,6 @@
             font-weight: bold;
         }
 
-        /* Ana Düzen: Sol Maçlar, Sağ Analiz Paneli */
         .main-layout {
             display: flex;
             gap: 20px;
@@ -165,7 +163,6 @@
             margin-top: 3px;
         }
 
-        /* Sağ Analiz Paneli */
         .coupon-panel {
             flex: 1;
             background: var(--card-bg);
@@ -298,7 +295,6 @@
 
         async function fetchMatches() {
             try {
-                // Render / Sunucu uyumlu dinamik yönlendirme
                 const res = await fetch('/api/matches');
                 allMatches = await res.json();
                 renderMatches();

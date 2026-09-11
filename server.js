@@ -1,75 +1,63 @@
 const express = require('express');
-const cors = require('cors');
 const axios = require('axios');
-
+const path = require('path');
 const app = express();
-app.use(cors());
 
-const API_KEY = '520dcfab308c3ca3826e317ad60717a8';
+const PORT = process.env.PORT || 5000;
+const API_KEY = process.env.API_KEY || '520dcfab308c3ca3826e317ad60717a8';
 
+// Statik dosyaları (index.html vb.) dışarıya açıyoruz
+app.use(express.static(path.join(__dirname)));
+
+// Ana sayfaya girildiğinde doğrudan index.html dosyasını sunuyoruz
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Maç verilerini getiren API uç noktası
 app.get('/api/matches', async (req, res) => {
     try {
         const today = new Date().toISOString().split('T')[0];
-
         const response = await axios.get('https://v3.football.api-sports.io/fixtures', {
-            headers: { 'x-apisports-key': API_KEY },
-            params: { date: today, timezone: 'Europe/Istanbul' }
+            headers: {
+                'x-apisports-key': API_KEY
+            },
+            params: {
+                date: today,
+                timezone: 'Europe/Istanbul'
+            }
         });
 
-        const fixtures = response.data?.response || [];
-
-        if (fixtures.length === 0) {
-            return res.json([]);
-        }
-
-        const picksList = ["KG Var", "2.5 Üst", "MS 1", "MS 2", "1.5 Üst", "IY 0.5 Üst"];
-
-        const formatted = fixtures.map((item, index) => {
-            const dateObj = new Date(item.fixture.date);
-            const matchTime = `${String(dateObj.getHours()).padStart(2, '0')}:${String(dateObj.getMinutes()).padStart(2, '0')}`;
-            
-            const randomPick = picksList[index % picksList.length];
-            const dynamicOdds = (1.45 + (index % 6) * 0.11).toFixed(2);
-            const dynamicConf = 70 + (index % 22);
-
+        const matches = response.data.response.map(item => {
+            const statusShort = item.fixture.status.short;
             let statusCode = 'SCHEDULED';
-            let statusText = matchTime;
-
-            if (['1H', '2H', 'HT', 'ET'].includes(item.fixture.status.short)) {
+            
+            if (['1H', 'HT', '2H', 'ET', 'P', 'BT', 'LIVE'].includes(statusShort)) {
                 statusCode = 'LIVE';
-                statusText = `CANLI (${item.fixture.status.elapsed}')`;
-            } else if (item.fixture.status.short === 'FT') {
+            } else if (['FT', 'AET', 'PEN'].includes(statusShort)) {
                 statusCode = 'FINISHED';
-                statusText = 'BİTTİ';
             }
 
-            const homeScore = item.goals.home ?? '-';
-            const awayScore = item.goals.away ?? '-';
-
             return {
-                id: item.fixture.id || (index + 1),
-                league: item.league.name.toUpperCase(),
-                time: statusText,
-                statusCode: statusCode,
+                id: item.fixture.id,
+                league: item.league.name,
                 home: item.teams.home.name,
                 away: item.teams.away.name,
-                score: statusCode !== 'SCHEDULED' ? `${homeScore} - ${awayScore}` : 'vs',
-                pick: randomPick,
-                odds: dynamicOdds,
-                confidence: `%${dynamicConf}`,
-                reason: `${item.league.name} ligindeki güncel form verilerine göre dinamik analiz edildi.`
+                score: `${item.goals.home ?? 0} - ${item.goals.away ?? 0}`,
+                time: statusShort === 'NS' ? new Date(item.fixture.date).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : item.fixture.status.elapsed + "'",
+                statusCode: statusCode,
+                pick: "MS 1",
+                odds: (1.50 + Math.random() * 1.50).toFixed(2)
             };
         });
 
-        res.json(formatted);
-
-    } catch (err) {
-        console.error("API Hatası:", err.response?.data || err.message);
-        res.status(500).json({ error: "Veriler çekilemedi." });
+        res.json(matches);
+    } catch (error) {
+        console.error("API Hatası:", error.message);
+        res.status(500).json({ error: "Veriler çekilirken hata oluştu." });
     }
 });
 
-const PORT = 5000;
 app.listen(PORT, () => {
-    console.log(`Gelişmiş Maç Servisi http://localhost:${PORT} adresinde aktif!`);
+    console.log(`Sunucu ${PORT} portunda aktif.`);
 });
