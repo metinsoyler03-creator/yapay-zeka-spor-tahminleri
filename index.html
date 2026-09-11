@@ -11,50 +11,42 @@
         
         body { background-color: #0b0e14; color: #94a3b8; font-family: 'Plus Jakarta Sans', sans-serif; }
         
-        /* Navbar */
         .navbar { background-color: #121824; border-bottom: 1px solid #1e293b; padding: 12px 0; }
         .navbar-brand { font-weight: 800; color: #38bdf8; font-size: 1.25rem; }
         .nav-link { color: #94a3b8; font-size: 0.85rem; font-weight: 500; margin: 0 4px; }
-        .nav-link:hover { color: #f8fafc; }
         .user-pill { background: #1e293b; border-radius: 8px; padding: 6px 12px; font-size: 0.85rem; color: #f8fafc; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .ticket-badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 2px 8px; border-radius: 6px; font-weight: 700; }
         
-        /* Sub Header / Cards */
         .top-banner { background: #121824; border: 1px solid #1e293b; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
-        .active-users { font-size: 0.75rem; font-weight: 700; color: #38bdf8; letter-spacing: 0.5px; }
+        .active-users { font-size: 0.75rem; font-weight: 700; color: #38bdf8; }
         .date-tab { background: #121824; border: 1px solid #1e293b; color: #94a3b8; border-radius: 10px; padding: 12px; text-align: center; font-weight: 600; cursor: pointer; }
         .date-tab.active { background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%); color: #fff; border: none; }
         
-        /* Filter Bar */
         .filter-bar { background: #121824; border: 1px solid #1e293b; border-radius: 10px; padding: 8px; display: flex; gap: 8px; overflow-x: auto; margin-bottom: 24px; }
         .filter-btn { background: transparent; border: none; color: #94a3b8; font-size: 0.8rem; font-weight: 600; padding: 6px 14px; border-radius: 6px; white-space: nowrap; }
         .filter-btn.active { background: #6366f1; color: #fff; }
         
-        /* Main Coupon Card */
-        .coupon-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 20px; }
+        .coupon-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
         .coupon-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; padding-bottom: 12px; margin-bottom: 16px; }
         .coupon-title { font-size: 1.1rem; font-weight: 800; color: #f8fafc; }
         .odds-box { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); color: #eab308; border-radius: 8px; padding: 10px; text-align: center; font-weight: 800; font-size: 1.2rem; }
-        .progress-bar-custom { height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; margin: 12px 0; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #ef4444, #38bdf8); width: 30%; }
-        .lock-box { background: #0b0e14; border: 1px dashed #334155; border-radius: 10px; padding: 30px; text-align: center; margin-top: 15px; cursor: pointer; transition: all 0.2s; }
-        .lock-box:hover { border-color: #6366f1; background: #0e131f; }
         
-        /* Right Sidebar Stats */
+        .lock-box { background: #0b0e14; border: 1px dashed #334155; border-radius: 10px; padding: 25px; text-align: center; margin-top: 15px; cursor: pointer; transition: all 0.2s; }
+        .lock-box:hover { border-color: #38bdf8; background: #0e131f; }
+        
         .stats-card { background: #121824; border: 1px solid #1e293b; border-radius: 14px; padding: 16px; }
-        .stat-badge { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 6px; padding: 2px 8px; font-size: 0.75rem; font-weight: 700; }
         .history-item { background: #0b0e14; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+        .match-row { background: #1a2234; padding: 10px; border-radius: 6px; margin-bottom: 8px; border-left: 3px solid #38bdf8; }
     </style>
 </head>
 <body>
 
-    <!-- Upper Navigation -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <i class="fa-solid fa-chart-pie text-info"></i> AtisticsPicks
+                <i class="fa-solid fa-robot text-info"></i> AtisticsPicks
             </a>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto ms-4">
                     <li class="nav-item"><a class="nav-link text-white fw-bold" href="#">Ana Sayfa</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Köşe Yazıları</a></li>
@@ -66,7 +58,7 @@
                 </ul>
                 <div class="user-pill">
                     <span>metin söyler</span>
-                    <span class="ticket-badge"><i class="fa-solid fa-ticket me-1"></i><span id="ticket-count">1</span> Ticket</span>
+                    <span class="ticket-badge"><i class="fa-solid fa-ticket me-1"></i><span id="ticket-count">3</span> Ticket</span>
                     <i class="fa-regular fa-bell ms-1"></i>
                     <i class="fa-regular fa-user ms-1"></i>
                 </div>
@@ -75,11 +67,10 @@
     </nav>
 
     <div class="container my-4">
-        <!-- Live Status Bar -->
         <div class="top-banner d-flex justify-content-between align-items-center">
-            <div class="active-users"><i class="fa-solid fa-circle text-success me-2"></i>AKTİF ÜYE: 4.114</div>
-            <div class="text-white small font-weight-bold">Hafta İçi Yayınımız Hakkında <span class="badge bg-primary ms-2">DUYURU</span></div>
-            <div class="text-end small"><a href="#" class="text-info text-decoration-none">Atistics TV İçerik Kataloğu <i class="fa-solid fa-arrow-right"></i></a></div>
+            <div class="active-users"><i class="fa-solid fa-circle text-success me-2"></i>YAPAY ZEKA MOTORU: AKTİF</div>
+            <div class="text-white small font-weight-bold">Bugünün 5 Büyük Lig Analizi Tamamlandı <span class="badge bg-primary ms-2">SÜPER LİG ÖZEL</span></div>
+            <div class="text-end small"><a href="#" class="text-info text-decoration-none">AI Algoritma Raporu <i class="fa-solid fa-arrow-right"></i></a></div>
         </div>
 
         <!-- Date Tabs -->
@@ -93,79 +84,110 @@
         <div class="filter-bar">
             <button class="filter-btn active">Tümü</button>
             <button class="filter-btn">Canlı</button>
-            <button class="filter-btn">Tekli</button>
-            <button class="filter-btn">Kombine</button>
+            <button class="filter-btn">Süper Lig & Devler</button>
+            <button class="filter-btn">VIP Kombine</button>
             <button class="filter-btn">Sonuçlanmış</button>
-            <button class="filter-btn">Kazandı</button>
-            <button class="filter-btn">Kaybetti</button>
         </div>
 
-        <!-- Main Content Area -->
         <div class="row g-4">
-            <!-- Left Side: Main Match / Lock Section -->
+            <!-- Center Side: AI Coupons & Big Matches -->
             <div class="col-lg-8">
                 <div class="coupon-card">
                     <div class="coupon-header">
-                        <div class="coupon-title">Günün Kombinesi</div>
-                        <span class="badge bg-dark text-secondary">Atilla Arda Bora</span>
+                        <div class="coupon-title">Günün Dev Ligler AI Kombinesi</div>
+                        <span class="badge bg-info text-dark font-weight-bold"><i class="fa-solid fa-microchip me-1"></i> ATISTICS AI BOT</span>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <span class="badge bg-warning text-dark font-weight-bold"><i class="fa-regular fa-clock me-1"></i> BEKLENİYOR</span>
-                        <span class="text-muted small"><i class="fa-solid fa-clock me-1"></i> 19:30</span>
-                        <span class="badge bg-indigo" style="background: #4f46e5; color: #fff;">ATİLLA ÖZEL</span>
+                        <span class="text-muted small">Başlama: 20:00</span>
+                        <span class="badge bg-primary">YÜKSEK GÜVEN (%88)</span>
                     </div>
 
-                    <h5 class="text-white font-weight-bold mb-3">Günün İkili Alternatif Kombine Önerisi</h5>
+                    <h6 class="text-white font-weight-bold mb-3">Süper Lig & Avrupa'nın En Önemli Maçları</h6>
 
                     <div class="odds-box mb-3">
-                        <small class="d-block text-muted style-normal" style="font-size: 0.75rem;">İDDAA</small>
-                        2.17
+                        <small class="d-block text-muted" style="font-size: 0.75rem;">TOPLAM İDDAA ORANI</small>
+                        3.45
                     </div>
 
-                    <div class="d-flex justify-content-between small text-muted">
-                        <span>GÜVEN ENDEKSİ</span>
-                        <span>%30</span>
-                    </div>
-                    <div class="progress-bar-custom">
-                        <div class="progress-fill"></div>
-                    </div>
-
-                    <!-- Locked Prediction Box -->
+                    <!-- Locked Area -->
                     <div class="lock-box" id="lock-box" onclick="unlockPick()">
                         <i class="fa-solid fa-lock text-warning fa-2x mb-2"></i>
-                        <h6 class="text-white font-weight-bold mb-1">KİLİTLİ KOMBİNE</h6>
-                        <small class="text-muted d-block mb-3">Görmek için 1 Ticket Harca</small>
-                        <button class="btn btn-info btn-sm fw-bold px-4" style="background:#38bdf8; color:#0b0e14;">Ticket İle Aç (1 Ticket)</button>
+                        <h6 class="text-white font-weight-bold mb-1">KİLİTLİ GÜNÜN KOMBİNESİ</h6>
+                        <small class="text-muted d-block mb-3">Süper Lig ve 5 Büyük Lig Maç Analizlerini Gör</small>
+                        <button class="btn btn-info btn-sm fw-bold px-4" style="background:#38bdf8; color:#0b0e14;">Ticket İle Aç (3 Ticket)</button>
                     </div>
 
-                    <!-- Unlocked Result Area (Hidden initially) -->
-                    <div id="unlocked-content" class="mt-3 p-3 rounded" style="display: none; background: #0b0e14; border: 1px solid #22c55e;">
-                        <span class="badge bg-success mb-2">TAHMİN AÇILDI</span>
-                        <div class="text-white font-weight-bold">1. Arsenal - Chelsea: MS 1 (1.65)</div>
-                        <div class="text-white font-weight-bold">2. Real Madrid - Barcelona: 2.5 Üst (1.31)</div>
+                    <!-- Unlocked Result Area -->
+                    <div id="unlocked-content" class="mt-3" style="display: none;">
+                        <span class="badge bg-success mb-3">TICKET KULLANILDI - ANALİZ AÇILDI</span>
+                        
+                        <div class="match-row">
+                            <div class="d-flex justify-content-between text-white font-weight-bold">
+                                <span>🇹🇷 Beşiktaş vs Erzurumspor</span>
+                                <span class="text-info">Maç Sonucu: MS 1 (1.45)</span>
+                            </div>
+                        </div>
+
+                        <div class="match-row">
+                            <div class="d-flex justify-content-between text-white font-weight-bold">
+                                <span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 Arsenal vs Chelsea</span>
+                                <span class="text-info">Gol Bahsi: 2.5 Üst (1.62)</span>
+                            </div>
+                        </div>
+
+                        <div class="match-row">
+                            <div class="d-flex justify-content-between text-white font-weight-bold">
+                                <span>🇪🇸 Real Madrid vs Barcelona</span>
+                                <span class="text-info">Karşılıklı Gol: KG Var (1.47)</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Side: Past Stats -->
+            <!-- Right Side: 3-Day Past Coupon History -->
             <div class="col-lg-4">
                 <div class="stats-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="text-white font-weight-bold"><i class="fa-solid fa-calendar-days me-2"></i>Geçmiş İstatistikler</div>
-                        <span class="stat-badge">% 80 Başarı</span>
+                        <div class="text-white font-weight-bold"><i class="fa-solid fa-clock-rotate-left me-2"></i>Son 3 Günün Kuponları</div>
+                        <span class="badge bg-success">% 84 AI Başarı</span>
                     </div>
 
+                    <!-- Dün (10 Eylül) -->
                     <div class="history-item">
                         <div class="d-flex justify-content-between small text-muted mb-1">
-                            <span>02:10 • DELUX</span>
+                            <span>10 EYL (DÜN) • VIP KOMBİNE</span>
                             <span class="badge bg-success">KAZANDI</span>
                         </div>
-                        <div class="text-white font-weight-bold small">Atlanta United v Orlando City</div>
-                        <div class="d-flex justify-content-between mt-2 small">
-                            <span class="text-muted">TAHMİN</span>
-                            <span class="text-success font-weight-bold">1.35</span>
+                        <div class="text-white font-weight-bold small">Galatasaray v Trabzonspor</div>
+                        <div class="text-muted style-normal" style="font-size:0.75rem;">Tahmin: MS 1 • Oran: 1.75</div>
+                        <div class="text-white font-weight-bold small mt-1">Man. City v Liverpool</div>
+                        <div class="text-muted style-normal" style="font-size:0.75rem;">Tahmin: 2.5 Üst • Oran: 1.50</div>
+                        <div class="text-end mt-2 text-success font-weight-bold small">Toplam Oran: 2.62</div>
+                    </div>
+
+                    <!-- 9 Eylül -->
+                    <div class="history-item">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>09 EYL • TEKLİ DEV MAÇ</span>
+                            <span class="badge bg-success">KAZANDI</span>
                         </div>
+                        <div class="text-white font-weight-bold small">Inter v AC Milan</div>
+                        <div class="text-muted style-normal" style="font-size:0.75rem;">Tahmin: MS 1 • Oran: 2.10</div>
+                        <div class="text-end mt-2 text-success font-weight-bold small">Toplam Oran: 2.10</div>
+                    </div>
+
+                    <!-- 8 Eylül -->
+                    <div class="history-item">
+                        <div class="d-flex justify-content-between small text-muted mb-1">
+                            <span>08 EYL • KOMBİNE</span>
+                            <span class="badge bg-danger">KAYBETTİ</span>
+                        </div>
+                        <div class="text-white font-weight-bold small">PSG v Marseille</div>
+                        <div class="text-muted style-normal" style="font-size:0.75rem;">Tahmin: 3.5 Üst • Oran: 2.40</div>
+                        <div class="text-end mt-2 text-danger font-weight-bold small">Toplam Oran: 2.40</div>
                     </div>
                 </div>
             </div>
@@ -173,16 +195,16 @@
     </div>
 
     <script>
-        let ticketCount = 1;
+        let ticketCount = 3;
 
         function unlockPick() {
-            if (ticketCount >= 1) {
-                ticketCount -= 1;
+            if (ticketCount >= 3) {
+                ticketCount -= 3;
                 document.getElementById('ticket-count').innerText = ticketCount;
                 document.getElementById('lock-box').style.display = 'none';
                 document.getElementById('unlocked-content').style.display = 'block';
             } else {
-                alert("Yetersiz Ticket! Lütfen yeni ticket paketi satın alın.");
+                alert("Yetersiz Ticket! Kilitli günün kuponunu açmak için en az 3 Ticket gereklidir.");
             }
         }
     </script>
